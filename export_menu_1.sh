@@ -1,6 +1,7 @@
 #!/bin/bash
 
 change1
+change2
 
 # ---------- Colours ----------
 BLUE='\033[1;34m'
