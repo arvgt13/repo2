@@ -1,0 +1,151 @@
+ansible script for doing automation of application installation . 
+This will be used in RAFM for doing multiple application installation
+-----------------------------------------------------------------------
+
+E.g. of Ansible script.
+
+
+This solution is broken down into three parts:
+
+1.Project Structure: How to organize your files.
+2.Inventory File: Defines your target servers.
+3.Ansible Playbook: The script that performs the installation.
+4.How to Run: Step-by-step instructions.
+
+
+1. Project Structure
+First, create a clean directory for your Ansible project. This keeps everything organized.
+
+mkdir ansible_vertica_qlik
+cd ansible_vertica_qlik
+
+
+Inside this directory, you will create two files:
+
+inventory.ini: The list of servers.
+install_software.yml: The Ansible playbook.
+Your final structure will look like this:
+
+
+ansible_vertica_qlik/
+├── inventory.ini
+└── install_software.yml
+
+
+2. Inventory File (inventory.ini)
+This file tells Ansible which servers to connect to and groups them logically. We'll create a group for Vertica nodes and another for Qlik Sense nodes.
+
+Create the file inventory.ini and add the following content.
+
+Important: Replace your_ssh_user with the actual username you use to SSH into these servers. It's highly recommended to use SSH key-based authentication for security and automation.
+
+
+# inventory.ini
+
+# Define groups for different software stacks
+[vertica_nodes]
+10.84.102.12
+10.84.102.13
+10.84.102.14
+10.84.102.15
+
+[qlik_nodes]
+10.84.102.20
+10.84.102.21
+10.84.102.22
+
+# Group variables can be set here, but we will define them in the playbook for this example.
+# It's good practice to define the user used for SSH connections.
+all:vars
+    ansible_user=your_ssh_user
+    # If you use SSH keys, you can specify the key file here
+    # ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+
+
+3. Ansible Playbook (install_software.yml)
+This is the core script. It contains the logic to download the packages from the central server (10.84.102.1) and install them on the target nodes.
+
+Assumptions:
+
+The packages on 10.84.102.1 are accessible via a web server (HTTP/HTTPS). This is the most common and robust method. If they are only accessible via scp, an alternative is provided in the comments.
+The target servers are running a RHEL-based OS like CentOS, Rocky Linux, or RHEL, which uses yum or dnf for package management.
+You will replace the placeholder package names and paths with your actual ones.
+Create the file install_software.yml and add the following content:
+
+
+---
+- name: Play 1: Install Vertica on Vertica Nodes
+  hosts: vertica_nodes
+  become: yes # Use sudo to become root for installation
+
+  vars:
+    # --- IMPORTANT: CHANGE THESE VALUES ---
+    package_server_host: "10.84.102.1"
+    # The full URL to the Vertica RPM on your package server
+    vertica_rpm_url: "http://{{ package_server_host }}/packages/vertica-server.rpm"
+    # Local temporary path on the target nodes to download the RPM
+    local_rpm_path: "/tmp/vertica-server.rpm"
+
+  tasks:
+    - name: 1. Download Vertica RPM from package server
+      get_url:
+        url: "{{ vertica_rpm_url }}"
+        dest: "{{ local_rpm_path }}"
+        mode: '0644' # Set file permissions
+
+    - name: 2. Install Vertica from the downloaded RPM
+      # Use 'dnf' module for RHEL/CentOS 8+ and 'yum' for 7 and below.
+      # 'yum' module often works as an alias for 'dnf' on newer systems.
+      yum:
+        name: "{{ local_rpm_path }}"
+        state: present
+
+    - name: 3. Clean up the downloaded RPM file
+      file:
+        path: "{{ local_rpm_path }}"
+        state: absent
+
+
+- name: Play 2: Install Qlik Sense on Qlik Nodes
+  hosts: qlik_nodes
+  become: yes # Use sudo to become root for installation
+
+  vars:
+    # --- IMPORTANT: CHANGE THESE VALUES ---
+    package_server_host: "10.84.102.1"
+    # The full URL to the Qlik Sense RPM on your package server
+    qlik_rpm_url: "http://{{ package_server_host }}/packages/qlik-sense.rpm"
+    # Local temporary path on the target nodes to download the RPM
+    local_rpm_path: "/tmp/qlik-sense.rpm"
+
+  tasks:
+    - name: 1. Download Qlik Sense RPM from package server
+      get_url:
+        url: "{{ qlik_rpm_url }}"
+        dest: "{{ local_rpm_path }}"
+        mode: '0644'
+
+    - name: 2. Install Qlik Sense from the downloaded RPM
+      yum:
+        name: "{{ local_rpm_path }}"
+        state: present
+
+    - name: 3. Clean up the downloaded RPM file
+      file:
+        path: "{{ local_rpm_path }}"
+        state: absent
+		
+		
+Alternative Method (if you don't have a web server)
+If the packages on 10.84.102.1 are only accessible via scp, you can replace the get_url task with a shell task. Note: This requires the target nodes to have SSH access to the package server.
+
+# --- ALTERNATIVE TASK TO REPLACE get_url ---
+# Use this if you cannot use a web server on 10.84.102.1
+
+    - name: 1. Download Vertica RPM from package server using scp
+      shell: scp user@{{ package_server_host }}:/path/to/packages/vertica-server.rpm {{ local_rpm_path }}
+      args:
+        creates: "{{ local_rpm_path }}" # Only run if the file doesn't exist		
+
+

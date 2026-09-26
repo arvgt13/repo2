@@ -1,0 +1,36 @@
+1.Check WiFi Signal & Link Speed
+Command: netsh wlan show interfaces
+Look for: "Signal" (Percentage).
+> 80%: Good for VPN.
+< 60%: Expect RDP lag and "screen freezes."
+
+
+2. Test for "Jitter" (Ping Stability)
+RDP hates "Jitter"—when one packet takes 20ms and the next takes 200ms.
+Command: ping -n 50 172.20.10.1
+(Find your Gateway IP by typing ipconfig , it's usually something like  172.20.10.1)
+The Red Flag: If you see "Request timed out" or jumps from 2ms to 100ms+, your Wi-Fi is the problem, not the VPN.
+
+
+3.Direct GlobalProtect Check (The Tunnel Test)
+command: ping -n 20 10.95.6.96
+Evaluation:
+
+< 100ms: RDP should be usable.
+100ms - 200ms: Noticeable lag; typing feels "heavy."
+> 250ms: RDP will be nearly unusable for productive work.
+
+
+4.Test Latency to Your RDP Server
+command: ping 10.95.6.96 -t
+
+✅ Good: <50ms** | ⚠️ Slow: **>100ms | ❌ Problem: packet loss >1%
+
+
+5.Check for Network Hops & Packet Loss
+pathping 20 10.95.6.96
+
+
+Find by IP (e.g., your local network IP):
+DOS
+netstat -ano | findstr 192.168.1.5
