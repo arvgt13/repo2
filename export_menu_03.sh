@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "hello"
+echo "hello1"
 
 # ================= COLOURS =================
 BLUE='\033[1;34m'
