@@ -13,6 +13,12 @@ YELLOW='\033[1;33m'
 MAGENTA='\033[1;35m'
 RED='\033[1;31m'
 WHITE='\033[1;37m'
+BG_BLUE='\033[44m'
+BG_CYAN='\033[46m'
+BG_GREEN='\033[42m'
+BG_MAGENTA='\033[45m'
+BG_RED='\033[41m'
+BG_YELLOW='\033[43m'
 RESET='\033[0m'
 
 # Directory containing this menu and export scripts
@@ -37,9 +43,32 @@ centre() {
     echo -e "${colour}${text}${RESET}"
 }
 
+centre_option() {
+    local number="$1"
+    local label="$2"
+    local badge_colour="$3"
+    local label_colour="$4"
+    local inner="   [$number] $label"
+    local inner_width=52
+    local width
+    local column
+    local padding
+
+    width=$(tput cols)
+    column=$(( (width - inner_width - 2) / 2 ))
+    (( column < 0 )) && column=0
+    padding=$((inner_width - ${#inner}))
+    (( padding < 0 )) && padding=0
+
+    printf "%*s" "$column" ""
+    printf '%b' "${CYAN}║${RESET}   ${badge_colour}[${number}]${RESET} ${label_colour}${label}${RESET}"
+    printf "%*s" "$padding" ""
+    printf '%b\n' "${CYAN}║${RESET}"
+}
+
 pause_menu() {
     echo
-    centre "Press Enter to return to the menu..." "$WHITE"
+    centre "Press Enter to return to the menu..." "$BG_CYAN$WHITE"
     read -r
 }
 
@@ -50,33 +79,29 @@ do
 
     echo
     echo
-    centre "╔════════════════════════════════════════════════════╗" "$CYAN"
+    centre "╔════════════════════════════════════════════════════╗" "$BG_BLUE$WHITE"
     centre "║                                                    ║" "$CYAN"
-    centre "║              ★ DATA EXPORT MENU ★                  ║" "$MAGENTA"
-    centre "║              * date format 2026-09-01*             ║" "$YELLOW"
-	centre "║                                                    ║" "$CYAN"
-    centre "╠════════════════════════════════════════════════════╣" "$CYAN"
+    centre "║              ★ DATA EXPORT MENU ★                  ║" "$BG_MAGENTA$WHITE"
+    centre "║              * date format 2026-09-01*             ║" "$BG_YELLOW$BLUE"
+    centre "╠════════════════════════════════════════════════════╣" "$BG_CYAN$WHITE"
+    centre_option 1 "write.sh" "$BG_YELLOW$BLUE" "$YELLOW"
+    centre_option 2 "export_dwo_rms_device_sim_hist.sh" "$BG_CYAN$BLUE" "$CYAN"
+    centre_option 3 "export_dwo_rms_device_msisdn_hist.sh" "$BG_GREEN$BLUE" "$GREEN"
+    centre_option 4 "export_dwo_ussd_ussd_cdr_hist.sh" "$BG_YELLOW$BLUE" "$YELLOW"
+    centre_option 5 "export_dwo_cmp_cmp.sh" "$BG_BLUE$WHITE" "$BLUE"
+    centre_option 6 "export_dwo_cbsmediation_data_swap.sh" "$BG_MAGENTA$WHITE" "$MAGENTA"
+    centre_option 7 "export_dwo_mediation_smsc_comviva.sh" "$BG_CYAN$BLUE" "$CYAN"
+    centre_option 8 "export_dwo_mediation_rec.sh" "$BG_GREEN$BLUE" "$GREEN"
+    centre_option 9 "export_dwo_mediation_volte_c.sh" "$BG_YELLOW$BLUE" "$YELLOW"
+    centre_option 10 "export_dwo_cbsmediation_sms.sh" "$BG_BLUE$WHITE" "$BLUE"
+    centre_option 11 "export_dwo_cbsmediation_mon_swap.sh" "$BG_MAGENTA$WHITE" "$MAGENTA"
+    centre_option 12 "export_dwo_cbsmediation_mgr_swap.sh" "$BG_CYAN$BLUE" "$CYAN"
+    centre_option 13 "export_dwo_mediation_msc_c.sh" "$BG_GREEN$BLUE" "$GREEN"
+    centre_option 14 "export_dwo_cbsmediation_data_swap_test.sh" "$BG_YELLOW$BLUE" "$YELLOW"
+    centre_option 15 "write1.sh" "$BG_RED$WHITE" "$RED"
     centre "║                                                    ║" "$CYAN"
-    centre "║   [1] write.sh                                     ║" "$YELLOW"
-    centre "║   [2] export_dwo_rms_device_sim_hist.sh            ║" "$CYAN"
-    centre "║   [3] export_dwo_rms_device_msisdn_hist.sh         ║" "$GREEN"
-    centre "║   [4] export_dwo_ussd_ussd_cdr_hist.sh             ║" "$YELLOW"
-    centre "║   [5] export_dwo_cmp_cmp.sh                        ║" "$BLUE"
-    centre "║   [6] export_dwo_cbsmediation_data_swap.sh         ║" "$MAGENTA"
-    centre "║   [7] export_dwo_mediation_smsc_comviva.sh         ║" "$CYAN"
-    centre "║   [8] export_dwo_mediation_rec.sh                  ║" "$GREEN"
-    centre "║   [9] export_dwo_mediation_volte_c.sh              ║" "$YELLOW"
-    centre "║   [10] export_dwo_cbsmediation_sms.sh              ║" "$BLUE"
-    centre "║   [11] export_dwo_cbsmediation_mon_swap.sh         ║" "$MAGENTA"
-    centre "║   [12] export_dwo_cbsmediation_mgr_swap.sh         ║" "$CYAN"
-    centre "║   [13] export_dwo_mediation_msc_c.sh               ║" "$GREEN"
-    centre "║   [14] export_dwo_cbsmediation_data_swap_test.sh   ║" "$YELLOW"
-	centre "║   [15] write1.sh                                   ║" "$RED"
-	centre "║                                                    ║" "$BLUE"
-	centre "║                                                    ║" "$CYAN"
-    centre "║   [16] Exit                                        ║" "$RED"
-    centre "║                                                    ║" "$CYAN"
-    centre "╚════════════════════════════════════════════════════╝" "$CYAN"
+    centre_option 16 "Exit" "$BG_RED$WHITE" "$RED"
+    centre "╚════════════════════════════════════════════════════╝" "$BG_BLUE$WHITE"
 
     echo
     centre "Select an option [1-16]:" "$WHITE"
@@ -141,11 +166,11 @@ do
 		16)
             clear
             echo
-            centre "Menu closed successfully." "$GREEN"
+            centre "Menu closed successfully." "$BG_GREEN$BLUE"
             exit 0
             ;;
         *)
-            centre "Invalid selection. Please select 1 to 15." "$RED"
+            centre "Invalid selection. Please select 1 to 16." "$BG_RED$WHITE"
             sleep 2
             continue
             ;;
@@ -154,7 +179,7 @@ do
     script_path="$SCRIPT_DIR/$script_name"
 
     if [[ ! -f "$script_path" ]]; then
-        centre "Script not found: $script_name" "$RED"
+        centre "Script not found: $script_name" "$BG_RED$WHITE"
         sleep 3
         continue
     fi
@@ -163,9 +188,9 @@ do
     clear
     echo
     echo
-    centre "╔════════════════════════════════════════════════════╗" "$BLUE"
-    centre "║              ENTER DATE RANGE                      ║" "$YELLOW"
-    centre "╚════════════════════════════════════════════════════╝" "$BLUE"
+    centre "╔════════════════════════════════════════════════════╗" "$BG_BLUE$WHITE"
+    centre "║              ENTER DATE RANGE                      ║" "$BG_YELLOW$BLUE"
+    centre "╚════════════════════════════════════════════════════╝" "$BG_BLUE$WHITE"
 
     echo
     centre "Selected script: $script_name" "$GREEN"
@@ -181,7 +206,7 @@ read -r end_date
 if ! [[ "$start_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]] ||
    ! [[ "$end_date" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
 
-    centre "Invalid date format. Example: 2026-09-10" "$RED"
+    centre "Invalid date format. Example: 2026-09-10" "$BG_RED$WHITE"
     pause_menu
     continue
 fi
@@ -190,7 +215,7 @@ fi
 if [[ "$(date -d "$start_date" "+%Y-%m-%d" 2>/dev/null)" != "$start_date" ]] ||
    [[ "$(date -d "$end_date" "+%Y-%m-%d" 2>/dev/null)" != "$end_date" ]]; then
 
-    centre "One or both dates are invalid." "$RED"
+    centre "One or both dates are invalid." "$BG_RED$WHITE"
     pause_menu
     continue
 fi
@@ -199,9 +224,9 @@ fi
     clear
     echo
     echo
-    centre "╔════════════════════════════════════════════════════╗" "$CYAN"
-    centre "║                CONFIRM EXECUTION                   ║" "$YELLOW"
-    centre "╚════════════════════════════════════════════════════╝" "$CYAN"
+    centre "╔════════════════════════════════════════════════════╗" "$BG_CYAN$WHITE"
+    centre "║                CONFIRM EXECUTION                   ║" "$BG_YELLOW$BLUE"
+    centre "╚════════════════════════════════════════════════════╝" "$BG_CYAN$WHITE"
 
     echo
     centre "Script     : $script_name" "$GREEN"
@@ -213,7 +238,7 @@ fi
     read -r confirm
 
     if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-        centre "Execution cancelled." "$YELLOW"
+        centre "Execution cancelled." "$BG_YELLOW$BLUE"
         sleep 2
         continue
     fi
@@ -283,9 +308,9 @@ nohup bash -c '
     clear
     echo
     echo
-    centre "╔════════════════════════════════════════════════════╗" "$GREEN"
-    centre "║            ✔ BACKGROUND JOB STARTED                ║" "$GREEN"
-    centre "╚════════════════════════════════════════════════════╝" "$GREEN"
+    centre "╔════════════════════════════════════════════════════╗" "$BG_GREEN$BLUE"
+    centre "║            ✔ BACKGROUND JOB STARTED                ║" "$BG_GREEN$BLUE"
+    centre "╚════════════════════════════════════════════════════╝" "$BG_GREEN$BLUE"
 
     echo
     centre "Process ID : $background_pid" "$YELLOW"
