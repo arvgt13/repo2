@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1240" viewBox="0 0 1800 1240" role="img" aria-labelledby="title description">
+  <title id="title">MIS to AEP migration strategy mind map</title>
+  <desc id="description">A mind map summarizing the migration purpose, scope, success measures, costs, risks, architecture, delivery plan, and next steps.</desc>
+  <defs>
+    <style>
+      text { font-family: Inter, "Segoe UI", Arial, sans-serif; fill: #17324d; }
+      .heading { font-size: 31px; font-weight: 700; letter-spacing: .2px; }
+      .subtitle { font-size: 16px; fill: #587087; }
+      .branch-title { font-size: 20px; font-weight: 700; }
+      .body { font-size: 16px; }
+      .small { font-size: 13px; fill: #587087; }
+      .center-title { font-size: 27px; font-weight: 700; fill: #ffffff; }
+      .center-sub { font-size: 15px; fill: #d8e8f7; }
+    </style>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="7" flood-color="#15314b" flood-opacity=".12"/>
+    </filter>
+  </defs>
+  <rect width="1800" height="1240" fill="#f5f8fc"/>
+  <text x="900" y="48" text-anchor="middle" class="heading">MIS → AEP | Migration Strategy</text>
+  <text x="900" y="76" text-anchor="middle" class="subtitle">A single modern data platform and a managed path to MIS retirement</text>
+
+  <g fill="none" stroke-width="5" stroke-linecap="round" opacity=".72">
+    <path d="M750 566 C700 548 685 176 635 176" stroke="#3478c7"/>
+    <path d="M750 610 C700 603 685 461 635 461" stroke="#16a085"/>
+    <path d="M750 654 C700 675 685 746 635 746" stroke="#8256b3"/>
+    <path d="M750 698 C700 746 685 1031 635 1031" stroke="#d78a18"/>
+    <path d="M1050 566 C1100 548 1115 176 1165 176" stroke="#d45454"/>
+    <path d="M1050 610 C1100 603 1115 461 1165 461" stroke="#2996a8"/>
+    <path d="M1050 654 C1100 675 1115 746 1165 746" stroke="#5969bb"/>
+    <path d="M1050 698 C1100 746 1115 1031 1165 1031" stroke="#54814d"/>
+  </g>
+  <g>
+    <circle cx="750" cy="566" r="7" fill="#3478c7"/><circle cx="635" cy="176" r="7" fill="#3478c7"/>
+    <circle cx="750" cy="610" r="7" fill="#16a085"/><circle cx="635" cy="461" r="7" fill="#16a085"/>
+    <circle cx="750" cy="654" r="7" fill="#8256b3"/><circle cx="635" cy="746" r="7" fill="#8256b3"/>
+    <circle cx="750" cy="698" r="7" fill="#d78a18"/><circle cx="635" cy="1031" r="7" fill="#d78a18"/>
+    <circle cx="1050" cy="566" r="7" fill="#d45454"/><circle cx="1165" cy="176" r="7" fill="#d45454"/>
+    <circle cx="1050" cy="610" r="7" fill="#2996a8"/><circle cx="1165" cy="461" r="7" fill="#2996a8"/>
+    <circle cx="1050" cy="654" r="7" fill="#5969bb"/><circle cx="1165" cy="746" r="7" fill="#5969bb"/>
+    <circle cx="1050" cy="698" r="7" fill="#54814d"/><circle cx="1165" cy="1031" r="7" fill="#54814d"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="50" y="75" width="585" height="202" rx="18" fill="#ffffff" stroke="#3478c7" stroke-width="2"/>
+    <rect x="1165" y="75" width="585" height="202" rx="18" fill="#ffffff" stroke="#d45454" stroke-width="2"/>
+    <rect x="50" y="360" width="585" height="202" rx="18" fill="#ffffff" stroke="#16a085" stroke-width="2"/>
+    <rect x="1165" y="360" width="585" height="202" rx="18" fill="#ffffff" stroke="#2996a8" stroke-width="2"/>
+    <rect x="50" y="645" width="585" height="202" rx="18" fill="#ffffff" stroke="#8256b3" stroke-width="2"/>
+    <rect x="1165" y="645" width="585" height="202" rx="18" fill="#ffffff" stroke="#5969bb" stroke-width="2"/>
+    <rect x="50" y="930" width="585" height="202" rx="18" fill="#ffffff" stroke="#d78a18" stroke-width="2"/>
+    <rect x="1165" y="930" width="585" height="202" rx="18" fill="#ffffff" stroke="#54814d" stroke-width="2"/>
+    <rect x="745" y="525" width="310" height="215" rx="28" fill="#173c60" stroke="#ffffff" stroke-width="5"/>
+  </g>
+
+  <g>
+    <text x="82" y="116" class="branch-title" fill="#3478c7">PURPOSE &amp; STRATEGY</text>
+    <text x="82" y="151" class="body"><tspan x="82">• Retire unsupported Oracle 11g and ageing hardware</tspan><tspan x="82" dy="27">• Consolidate data and reporting in AEP/BI</tspan><tspan x="82" dy="27">• Establish one source of truth and a lakehouse</tspan><tspan x="82" dy="27">• Address duplicate data, risk, cost and slow change</tspan></text>
+
+    <text x="1197" y="116" class="branch-title" fill="#d45454">MIGRATION RISKS</text>
+    <text x="1197" y="151" class="body"><tspan x="1197">• Legacy / THC interface dependency</tspan><tspan x="1197" dy="27">• AEP licence capacity and delivery resourcing</tspan><tspan x="1197" dy="27">• AEP database performance; reporting continuity</tspan><tspan x="1197" dy="27">• Resolve interface; load-test capacity before go-live</tspan></text>
+
+    <text x="82" y="401" class="branch-title" fill="#16a085">SCOPE &amp; CONTROLS</text>
+    <text x="82" y="436" class="body"><tspan x="82">• Feeds, ETL, views/procedures, reports, dashboards, APIs</tspan><tspan x="82" dy="27">• Move required history; protect audit and regulatory data</tspan><tspan x="82" dy="27">• Move, rebuild, combine, archive or retire each item</tspan><tspan x="82" dy="27">• Keep MIS running until AEP is ready; integrations excluded</tspan></text>
+
+    <text x="1197" y="401" class="branch-title" fill="#2996a8">CURRENT ARCHITECTURE</text>
+    <text x="1197" y="436" class="body"><tspan x="1197">• 15+ file feeds; database links still to be identified</tspan><tspan x="1197" dy="27">• ~150 Oracle GoldenGate replication feeds</tspan><tspan x="1197" dy="27">• MIS transforms data for reports, APIs and applications</tspan><tspan x="1197" dy="27">• Assess processing and history for migration / retention</tspan></text>
+
+    <text x="82" y="686" class="branch-title" fill="#8256b3">SUCCESS &amp; GOVERNANCE</text>
+    <text x="82" y="721" class="body"><tspan x="82">• AEP workloads available; data and business rules match</tspan><tspan x="82" dy="27">• Meet refresh / response targets; redirect users safely</tspan><tspan x="82" dy="27">• Archive history, confirm savings and approve MIS closure</tspan><tspan x="82" dy="27">• AEP, MIS, business, security and source teams share ownership</tspan></text>
+
+    <text x="1197" y="686" class="branch-title" fill="#5969bb">~24-WEEK DELIVERY PLAN</text>
+    <text x="1197" y="721" class="body"><tspan x="1197">• Assess &amp; plan (3w); analyse &amp; map (5w)</tspan><tspan x="1197" dy="27">• Migrate (5w); develop (6w)</tspan><tspan x="1197" dy="27">• Test &amp; validate (3w); deploy / go-live (2w)</tspan><tspan x="1197" dy="27">• Post-go-live monitoring and optimisation (ongoing)</tspan></text>
+
+    <text x="82" y="971" class="branch-title" fill="#d78a18">COST &amp; BENEFITS</text>
+    <text x="82" y="1006" class="body"><tspan x="82">• $79,174 annual run-rate savings</tspan><tspan x="82" dy="27">• $64,800 one-time transition cost</tspan><tspan x="82" dy="27">• Deck states $331,270 net savings over five years*</tspan><tspan x="82" dy="27">• Lower energy, maintenance and ESB load; easier scaling</tspan></text>
+
+    <text x="1197" y="971" class="branch-title" fill="#54814d">IMMEDIATE NEXT STEPS</text>
+    <text x="1197" y="1006" class="body"><tspan x="1197">• Secure stakeholder sign-off and agree data ownership</tspan><tspan x="1197" dy="27">• Prove data coverage and reconciliation accuracy</tspan><tspan x="1197" dy="27">• Confirm storage / licences and plan Oracle exit</tspan><tspan x="1197" dy="27">• Assemble cross-functional delivery team</tspan></text>
+
+    <text x="900" y="601" text-anchor="middle" class="center-title">MIS → AEP</text>
+    <text x="900" y="637" text-anchor="middle" class="center-sub">Migration strategy</text>
+    <line x1="805" y1="657" x2="995" y2="657" stroke="#83a8ca" stroke-width="1.5"/>
+    <text x="900" y="684" text-anchor="middle" class="center-sub">Retire • Consolidate • Build</text>
+    <text x="900" y="707" text-anchor="middle" class="center-sub">toward a modern data lakehouse</text>
+  </g>
+
+  <text x="900" y="1180" text-anchor="middle" class="small">Source: DataLake_MIS_to_AEP_V0.4.pptx. *The deck's stated figure differs from $79,174 × 5 − $64,800 ($331,070).</text>
+</svg>

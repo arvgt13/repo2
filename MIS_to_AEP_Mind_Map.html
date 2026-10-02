@@ -1,0 +1,295 @@
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f8fc">
+  <title>MIS to AEP | Interactive Mind Map</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      color: #17324d;
+      background: #f5f8fc;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      --muted: #587087;
+      --line: #dbe5ef;
+      --blue: #3478c7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-width: 320px; }
+    header {
+      padding: 30px clamp(18px, 4vw, 64px) 22px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    h1 { margin: 0; font-size: clamp(27px, 4vw, 40px); letter-spacing: -.035em; }
+    header p:last-child { max-width: 760px; margin: 10px 0 0; color: var(--muted); line-height: 1.55; }
+    main {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(300px, .8fr);
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 22px clamp(14px, 3vw, 40px) 36px;
+    }
+    .diagram, .explorer {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 8px 30px rgb(23 50 77 / 5%);
+    }
+    .panel-heading { padding: 18px 20px 0; }
+    h2 { margin: 0; font-size: 17px; }
+    .hint { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .diagram object { display: block; width: 100%; aspect-ratio: 1800 / 1240; border: 0; }
+    .explorer { align-self: start; }
+    .explorer-content { padding: 18px 20px 22px; }
+    label { display: block; margin-bottom: 7px; font-size: 13px; font-weight: 650; }
+    input[type="search"] {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 12px;
+      border: 1px solid #bdccda;
+      border-radius: 9px;
+      background: #fff;
+      color: inherit;
+      font: inherit;
+    }
+    input[type="search"]:focus-visible, button:focus-visible {
+      outline: 3px solid rgb(52 120 199 / 35%);
+      outline-offset: 2px;
+    }
+    .topic-list { display: grid; gap: 7px; margin: 14px 0 0; padding: 0; list-style: none; }
+    .topic-button {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 11px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      background: #f5f8fc;
+      color: inherit;
+      text-align: left;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+    .topic-button:hover { background: #edf3f9; }
+    .topic-button[aria-pressed="true"] { border-color: var(--topic-color); background: color-mix(in srgb, var(--topic-color) 9%, white); }
+    .topic-dot { width: 10px; height: 10px; flex: 0 0 10px; border-radius: 50%; background: var(--topic-color); }
+    .empty { margin: 14px 0 0; color: var(--muted); font-size: 13px; }
+    .detail {
+      margin-top: 18px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--topic-color, var(--blue));
+      border-radius: 10px;
+      background: #fff;
+    }
+    .detail h3 { margin: 0 0 10px; font-size: 16px; }
+    .detail ul { display: grid; gap: 9px; margin: 0; padding-left: 19px; color: #334e68; font-size: 13px; line-height: 1.5; }
+    .note { margin: 12px 0 0; padding: 10px 11px; border-radius: 8px; background: #fff4e4; color: #70470d; font-size: 12px; line-height: 1.5; }
+    .source { padding: 0 20px 18px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .source a { color: #245f9f; }
+    @media (max-width: 950px) {
+      main { grid-template-columns: 1fr; }
+      .explorer { order: -1; }
+      .topic-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 520px) {
+      .topic-list { grid-template-columns: 1fr; }
+      .diagram object { min-height: 280px; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .topic-button, input { transition: background-color .15s ease, border-color .15s ease; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="eyebrow">Migration strategy</p>
+    <h1>MIS → AEP</h1>
+    <p>Explore the migration mind map. Select a topic or search the outline to see its key decisions, measures, and actions.</p>
+  </header>
+  <main>
+    <section class="diagram" aria-labelledby="diagram-title">
+      <div class="panel-heading">
+        <h2 id="diagram-title">Mind map overview</h2>
+        <p class="hint">The diagram summarizes the full strategy; use the topic explorer to dig into each branch.</p>
+      </div>
+      <object data="MIS_to_AEP_Mind_Map.svg" type="image/svg+xml" aria-label="Mind map diagram: MIS to AEP migration strategy">
+        <p class="hint">The diagram could not be loaded. Open <a href="MIS_to_AEP_Mind_Map.svg">the SVG mind map</a> directly.</p>
+      </object>
+    </section>
+
+    <aside class="explorer" aria-labelledby="explorer-title">
+      <div class="panel-heading">
+        <h2 id="explorer-title">Explore topics</h2>
+        <p class="hint">Choose a branch to view its details.</p>
+      </div>
+      <div class="explorer-content">
+        <label for="topic-search">Search branches and details</label>
+        <input id="topic-search" type="search" placeholder="Try “history” or “cost”" autocomplete="off">
+        <nav aria-label="Mind map topics">
+          <ul class="topic-list" id="topic-list"></ul>
+        </nav>
+        <p class="empty" id="empty-state" hidden>No matching topics.</p>
+        <section class="detail" id="topic-detail" aria-live="polite" aria-atomic="true"></section>
+      </div>
+      <p class="source">Source: <a href="DataLake_MIS_to_AEP_V0.4.pptx">DataLake_MIS_to_AEP_V0.4.pptx</a></p>
+    </aside>
+  </main>
+  <script>
+    const topics = [
+      {
+        id: "purpose", title: "Purpose & strategy", color: "#3478c7",
+        points: [
+          "Retire the unsupported Oracle 11g MIS platform and ageing hardware.",
+          "Consolidate data and reporting in AEP/BI as one source of truth.",
+          "Establish a clean foundation for the Data Lakehouse program.",
+          "Reduce duplicate data, platform risk, recurring cost, and duplicated change effort."
+        ]
+      },
+      {
+        id: "scope", title: "Scope & controls", color: "#16a085",
+        points: [
+          "Review data feeds, materialized views and procedures, ETL, dashboards, reports, and APIs.",
+          "Move required historical data and keep audit and regulatory data safe.",
+          "Decide for each item whether to move, rebuild, combine, archive, or retire it.",
+          "Keep critical MIS processes running until AEP is ready; MIS-connected application integrations are listed as a temporary exclusion."
+        ]
+      },
+      {
+        id: "success", title: "Success & governance", color: "#8256b3",
+        points: [
+          "Approved MIS reports and workloads are available from AEP; counts, totals, and business rules match.",
+          "Meet refresh and response targets, reduce duplicate processing, and redirect users and downstream applications.",
+          "Move or securely archive history, confirm savings, and obtain business and technical approval to retire MIS.",
+          "AEP, MIS, business, infrastructure, security, and source-system teams share ownership."
+        ]
+      },
+      {
+        id: "cost", title: "Cost & benefits", color: "#d78a18",
+        points: [
+          "Stated annual run-rate savings: $79,174 ($60,000 managed-service resource savings and $19,174 licence savings).",
+          "One-time transition cost: $64,800.",
+          "The deck states $331,270 net savings over five years.",
+          "Other benefits include lower energy and hardware maintenance, reduced ESB load, platform consolidation, and easier scaling."
+        ],
+        note: "Arithmetic check: $79,174 × 5 − $64,800 = $331,070, which is $200 less than the deck's stated $331,270."
+      },
+      {
+        id: "risks", title: "Migration risks", color: "#d45454",
+        points: [
+          "Legacy/THC interface dependency: validate where required views will be exposed before cutover.",
+          "AEP licence capacity: clean up existing allocations before onboarding additional feeds.",
+          "Delivery resourcing: provide dedicated technical developers.",
+          "AEP database performance and reporting continuity: load-test capacity and validate the post-migration CAF report mechanism."
+        ]
+      },
+      {
+        id: "architecture", title: "Current architecture", color: "#2996a8",
+        points: [
+          "MIS receives 15+ file-based feeds, database-link data, and about 150 Oracle GoldenGate replication feeds.",
+          "MIS processing applies transformations and business rules.",
+          "Reports, dashboards, APIs, and downstream applications consume MIS data.",
+          "Identify ingestion replacements, rebuild or retire processing, redirect consumers, and decide how much history to migrate or archive."
+        ]
+      },
+      {
+        id: "delivery", title: "~24-week delivery plan", color: "#5969bb",
+        points: [
+          "Assessment and planning (~3 weeks), then data analysis and mapping (~5 weeks).",
+          "Migration (~5 weeks) and development (~6 weeks).",
+          "Testing and validation (~3 weeks), then deployment and go-live (~2 weeks).",
+          "Post-go-live monitoring, triage, training, and continuous optimisation are ongoing."
+        ]
+      },
+      {
+        id: "next", title: "Immediate next steps", color: "#54814d",
+        points: [
+          "Secure stakeholder sign-off and agree governance and data ownership.",
+          "Run a proof of concept to confirm AEP data coverage and reconciliation accuracy.",
+          "Confirm any incremental AEP/Dorado storage and licensing; initiate Oracle exit planning.",
+          "Assemble the cross-functional delivery team and arrange development resourcing."
+        ]
+      }
+    ];
+
+    const list = document.querySelector("#topic-list");
+    const search = document.querySelector("#topic-search");
+    const detail = document.querySelector("#topic-detail");
+    const empty = document.querySelector("#empty-state");
+    let selectedId = "purpose";
+
+    function renderDetail(topic) {
+      detail.replaceChildren();
+      detail.style.setProperty("--topic-color", topic.color);
+      const heading = document.createElement("h3");
+      heading.textContent = topic.title;
+      const points = document.createElement("ul");
+      for (const point of topic.points) {
+        const item = document.createElement("li");
+        item.textContent = point;
+        points.append(item);
+      }
+      detail.append(heading, points);
+      if (topic.note) {
+        const note = document.createElement("p");
+        note.className = "note";
+        note.textContent = topic.note;
+        detail.append(note);
+      }
+    }
+
+    function renderTopics() {
+      const query = search.value.trim().toLocaleLowerCase();
+      const matches = topics.filter(topic =>
+        `${topic.title} ${topic.points.join(" ")} ${topic.note || ""}`.toLocaleLowerCase().includes(query)
+      );
+      list.replaceChildren();
+      for (const topic of matches) {
+        const item = document.createElement("li");
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "topic-button";
+        button.style.setProperty("--topic-color", topic.color);
+        button.setAttribute("aria-pressed", String(topic.id === selectedId));
+        button.innerHTML = '<span class="topic-dot" aria-hidden="true"></span>';
+        const label = document.createElement("span");
+        label.textContent = topic.title;
+        button.append(label);
+        button.addEventListener("click", () => {
+          selectedId = topic.id;
+          renderTopics();
+          renderDetail(topic);
+        });
+        item.append(button);
+        list.append(item);
+      }
+      empty.hidden = matches.length !== 0;
+    }
+
+    search.addEventListener("input", renderTopics);
+    renderTopics();
+    renderDetail(topics[0]);
+  </script>
+</body>
+</html>
